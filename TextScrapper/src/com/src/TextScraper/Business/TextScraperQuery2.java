@@ -42,9 +42,7 @@ public class TextScraperQuery2 extends TextScraperAbstract{
 		if(strSearchKeyword == null || strSearchKeyword.length() == 0 || pageNo == null){
 			throw new NullPointerException("[ERROR]: Search Keyword or page number is empty");
 		}
-		
-		int idCounter = 1;
-				
+					
 		// remove beginning and trailing spaces and replace space in between keywords with %20
 		String strProcessedCategory = objURLUtilities.preProcessURLKeywords(strSearchKeyword);
 		if(strProcessedCategory == null){ throw new NullPointerException("[ERROR]: URL preprocessing failed."); }
@@ -64,13 +62,16 @@ public class TextScraperQuery2 extends TextScraperAbstract{
 		Elements resultsNo = doc.getElementsByClass("numTotalResults");
 		if(resultsNo == null){ throw new NullPointerException("[ERROR]: No results fetched."); }
 		
-		// Set the total results fetched count
-		this.setiResultCount(Integer.parseInt(resultsNo.text().toString().split(" ")[3]));
+		// Set the total results fetched count by parsing "Results 41 - 80 of 1498"
+		int idCounter = 1;	//counter for html dynamic ID element for product details retrieval
+		String[] arrResultCount = resultsNo.text().toString().split(" ");
+		int totalPageResultsCount = Integer.parseInt(arrResultCount[3]);	// Results count shown so far
+		this.setiResultCount(totalPageResultsCount);
 		
 		//loop till the fetched number of results to create a result object
 		if(this.getiResultCount() != 0){
-			for(;idCounter <= this.getiResultCount(); idCounter++){
-				
+			for(;idCounter <= 40; idCounter++){
+
 				//idCounter to dynamic ID tag of HTML content for Product Title	
 				Element content = doc.getElementById("quickLookItem-"+idCounter);
 				if(content == null){ throw new NullPointerException("[ERROR]: Element for Product is retrieved empty."); }
@@ -119,8 +120,6 @@ public class TextScraperQuery2 extends TextScraperAbstract{
 	 */
 	public void displayResult(){
 		if(productList != null && productList.size() != 0){
-			System.out.println();
-			System.out.println("TOTAL RESULTS: "+ this.getiResultCount());
 			System.out.println();
 			int i = 1;
 			for(ProductDetails pd : productList){
