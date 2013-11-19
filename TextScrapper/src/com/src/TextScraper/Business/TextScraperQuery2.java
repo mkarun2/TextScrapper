@@ -29,33 +29,36 @@ public class TextScraperQuery2 extends TextScraperAbstract{
 	}
 	
 	/**
-	 * This method is the TextScrapper Main algorithm for Query 2
-	 * @param strSearchKeyword
-	 * @param pageNo
-	 * @throws IOException 
-	 * @throws MalformedURLException 
+	 * This method is the public interface method
+	 * to be called by the user and the user won't 
+	 * know about the implementation logic
 	 */
 	public void executeQuery(String strSearchKeyword,Integer pageNo) 
 			throws NullPointerException,MalformedURLException, IOException{
 		
+		//no string object
+		if(strSearchKeyword == null){ throw new NullPointerException("[ERROR]: Empty search keyword."); }
+		
 		// Base exit
-		if(strSearchKeyword == null || strSearchKeyword.length() == 0 || pageNo == null){
+		if (strSearchKeyword.length() == 0 || pageNo == null) {
 			throw new NullPointerException("[ERROR]: Search Keyword or page number is empty");
 		}
-					
-		// remove beginning and trailing spaces and replace space in between keywords with %20
-		String strProcessedCategory = objURLUtilities.preProcessURLKeywords(strSearchKeyword);
-		if(strProcessedCategory == null){ throw new NullPointerException("[ERROR]: URL preprocessing failed."); }
 		
-		// Build the URL
-		String strURL = objURLUtilities.buildURL(strProcessedCategory,pageNo);		
-		if(strURL == null){ throw new NullPointerException("[ERROR]: URL building failed."); }
+		// call the super class common method for both queries to process the search keyword
+		super.preProcessSearchKeywords(strSearchKeyword,pageNo);
 		
-		//URL used for result fetch
-		System.out.println("[INFO]: URL: "+strURL);
+		//Create the List of Products
+		this.retrieveContentUtility();
+	}
+	
+	/**
+	 * This method implements the main algorithm for query2
+	 * @throws MalformedURLException
+	 * @throws IOException
+	 */
+	private void retrieveContentUtility() 
+			throws MalformedURLException, IOException{
 		
-		// Create the DOM
-		doc = objParserUtilities.createDOMDocument(strURL);
 		if(doc == null){ throw new NullPointerException("[ERROR]: DOM creation failed."); }
 		
 		//Total number of results retrieved
@@ -112,7 +115,7 @@ public class TextScraperQuery2 extends TextScraperAbstract{
 				//add to list of products from result
 				productList.add(objProductDetails);
 			}
-		}	
+		}
 	}
 	
 	/**

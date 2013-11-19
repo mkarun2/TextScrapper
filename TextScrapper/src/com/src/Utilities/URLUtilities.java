@@ -12,13 +12,12 @@ public class URLUtilities {
 	/**
 	 * GetHTMLContentFromURL is used to parse return the viewSource(HTML
 	 * content) of the strURL, a web page URL
-	 * 
 	 * @param strURL
 	 * @return
 	 * @throws MalformedURLException 
 	 */
 	public String GetHTMLContentFromURL(String strURL) 
-			throws MalformedURLException,IOException {
+			throws NullPointerException,MalformedURLException,IOException {
 		URL url = null;
 		URLConnection urlConnection = null;
 		BufferedReader buffReader = null;
@@ -31,27 +30,22 @@ public class URLUtilities {
 		// open the URL Connection to open the web page
 		urlConnection = url.openConnection();
 
-		// Initialize a buffered Reader to read the contents through the Input
-		// Stream
-		// The encoding assumed here is UTF-8 since it is the most prevalent in
-		// recent application
-		buffReader = new BufferedReader(new InputStreamReader(
-				urlConnection.getInputStream(), "UTF-8"));
+		// Initialize a buffered Reader to read the contents through the Input Stream
+		// The encoding assumed here is UTF-8 since it is the most prevalent in recent application
+		buffReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
 		sbHTMLContent = new StringBuilder();
 
-		// read the contents line by line and add to String Builder object which
-		// does not
+		// read the contents line by line and add to String Builder object which does not
 		// cause immutable strings and saves space
 		while ((strInputLine = buffReader.readLine()) != null) {
 			sbHTMLContent.append(strInputLine + "\n");
 		}
 		buffReader.close();
-		if (sbHTMLContent != null) {
-			return sbHTMLContent.toString(); // return a single string of the
-												// HTML contents
+		if (sbHTMLContent.length() != 0) {
+			return sbHTMLContent.toString(); // return a single string of the HTML contents
+		}else{
+			return null;
 		}
-		// this point is reached if the HTML Content is empty
-		return null;
 	}
 
 	/**
@@ -59,9 +53,7 @@ public class URLUtilities {
 	 * ' ' (space) with '%20' 2) Trim extra spaces in the keywords as the user
 	 * may leave extra spaces at the end or at the beginning of the search
 	 * keywords
-	 * 
-	 * @param strKeyword
-	 *            - keyword to pre process
+	 * @param strKeyword - keyword to pre process
 	 * @return
 	 */
 	public String preProcessURLKeywords(String strKeyword) {
@@ -79,10 +71,8 @@ public class URLUtilities {
 	/**
 	 * This method is used to contruct the URL for query the website using the
 	 * keywords entered by the user and the page number
-	 * 
 	 * @param strKeyword
-	 * @param pgNo
-	 *            - is 1 for query type 1, userdefined for query type 2
+	 * @param pgNo - is 1 for query type 1, userdefined for query type 2
 	 * @return
 	 */
 	public String buildURL(String strKeyword, Integer pgNo) {
