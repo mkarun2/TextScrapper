@@ -10,19 +10,19 @@ public class TextScraperMain {
 		TextScraperAbstract tsa = null;
 		try{
 			// no arguments provided
-			if(args == null){throw new IllegalArgumentException("Please provide the Search keyword and/or result page number");	}
+			if(args == null){throw new IllegalArgumentException("[ERROR]: Please provide the Search keyword and/or result page number");	}
 			
 			// No arguments provided
-			if(args.length == 0){ throw new IllegalArgumentException("Please provide the Search keyword and/or result page number");}
+			if(args.length == 0){ throw new IllegalArgumentException("[ERROR]: Please provide the Search keyword and/or result page number");}
 			
 			// More than 3 arguments provided
-			if(args.length > 2){ throw new IllegalArgumentException("The application can take at the max of 2 arguments.");	}
+			if(args.length > 2){ throw new IllegalArgumentException("[ERROR]: The application can take at the max of 2 arguments.");	}
 			
 			// if 1 argument provided, execute query 1
 			if(args.length == 1){
 				tsa = new TextScraperQuery1();
 				tsa.executeQuery(args[0], 1);
-				System.out.println("[INFO]: Results after executing Query 1 \n");
+				System.out.println("\n[INFO]: Results after executing Query 1 \n");
 				tsa.displayResult();
 				System.out.println();
 			}
@@ -30,7 +30,7 @@ public class TextScraperMain {
 			else if(args.length == 2){			
 				tsa = new TextScraperQuery2();
 				tsa.executeQuery(args[0], Integer.parseInt(args[1]));
-				System.out.println("[INFO]: Results after executing Query 2 \n");
+				System.out.println("\n[INFO]: Results after executing Query 2 \n");
 				tsa.displayResult();
 				System.out.println();
 			}else{
