@@ -76,10 +76,10 @@ public abstract class TextScraperAbstract {
 		
 		// get the total results fetched count by parsing string "Results 41 - 80 of 1498"		
 		String[] arrResultCount = resultsNo.text().toString().split(" ");
-		
-		// Results count viewed so far in the output eg: 80 results in 2 pages, so count = 80
-		int totalPageResultsCount = Integer.parseInt(objURLUtilities.removeComma(arrResultCount[3]));	
-		this.setiResultCount(totalPageResultsCount);
+				
+		// Results count for current page to be used when retrieving the products
+		this.setiResultCount((Integer.parseInt(objURLUtilities.removeComma(arrResultCount[3])) - 
+				Integer.parseInt(objURLUtilities.removeComma(arrResultCount[1]))) + 1);
 		
 		 // total result set count
 		this.setTotalResultCount(Integer.parseInt(objURLUtilities.removeComma(arrResultCount[5])));

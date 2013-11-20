@@ -82,7 +82,7 @@ public class TextScraperQuery2 extends TextScraperAbstract{
 			
 		//loop till the fetched number of results to create a result object
 		if(this.getiResultCount() != 0){
-			for(;idCounter <= 40; idCounter++){
+			for(;idCounter <= this.getiResultCount(); idCounter++){
 				
 				//idCounter to dynamic ID tag of HTML content for Product Title	
 				Element content = doc.getElementById("quickLookItem-"+idCounter);
