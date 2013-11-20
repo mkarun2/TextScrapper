@@ -31,6 +31,7 @@ public class TextScraperMain {
 			}
 			// if 2 arguments provided, execute query 2
 			else if(args.length == 2){			
+				if(!isInteger(args[1])) { throw new IllegalArgumentException("[ERROR]: The second argument can be only an Integer");	}
 				tsa = new TextScraperQuery2();
 				System.out.println("\n[INFO]: Results after executing Query 2 \n");
 				tsa.executeQuery(args[0], Integer.parseInt(args[1]));				
@@ -49,6 +50,22 @@ public class TextScraperMain {
 			System.out.println(e.getMessage());
 		}
 	}
+	
+	 
+	/**
+	 * Method to check if entered input is integer
+	 * @param s
+	 * @return
+	 */
+	 public static boolean isInteger(String s) {
+	     try { 
+	         Integer.parseInt(s); 
+	     } catch(NumberFormatException e) { 
+	         return false; 
+	     }
+	     // only got here if we didn't return false
+	     return true;
+	 }
 	
 	/**
 	 * Client Methods

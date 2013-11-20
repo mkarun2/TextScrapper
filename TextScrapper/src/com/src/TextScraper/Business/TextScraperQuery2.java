@@ -86,7 +86,8 @@ public class TextScraperQuery2 extends TextScraperAbstract{
 				
 				//idCounter to dynamic ID tag of HTML content for Product Title	
 				Element content = doc.getElementById("quickLookItem-"+idCounter);
-				if(content == null){ throw new NullPointerException("[ERROR]: Element for Product is retrieved empty."); }
+				if(content == null){ continue; }	// continue because some pages might not display 40 items
+													// as some might display < 40 and some may display > 40
 				
 				//Product Title
 				Element title = content.getElementById("nameQA"+idCounter);		
