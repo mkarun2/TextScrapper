@@ -2,8 +2,7 @@ package com.src.TextScraper.Business;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-
-import org.jsoup.select.Elements;
+import com.src.Exceptions.IllegalPageNumberException;
 
 
 public class TextScraperQuery1 extends TextScraperAbstract{
@@ -24,13 +23,18 @@ public class TextScraperQuery1 extends TextScraperAbstract{
 			throws NullPointerException, MalformedURLException, IOException{
 		//no string object
 		if(strSearchKeyword == null){ throw new NullPointerException("[ERROR]: Empty search keyword."); }
+		if(pageNo == null){ throw new NullPointerException("[ERROR]: Empty page number."); }
 		
 		// Base exit
 		if (strSearchKeyword.length() == 0) {
 			throw new NullPointerException("[ERROR]: Search Keyword or page number is empty");
 		}
 		
-		super.preProcessSearchKeywords(strSearchKeyword,1);
+		try {
+			super.preProcess(strSearchKeyword,1);
+		} catch (IllegalPageNumberException e) {
+			System.out.println(e.getMessage());
+		}
 		this.query1Implementation();		
 	}
 	
@@ -44,21 +48,19 @@ public class TextScraperQuery1 extends TextScraperAbstract{
 		
 		if(doc == null){ throw new NullPointerException("[ERROR]: DOM creation failed."); }
 		
-		//Total number of results retrieved
-		Elements resultsNo = doc.getElementsByClass("numTotalResults");
-		if(resultsNo == null){ throw new NullPointerException("[ERROR]: No results fetched."); }
-		
-		// Set the total results fetched count by parsing eg. "Results 41 - 80 of 1498"
-		String[] arrResultCount = resultsNo.text().toString().split(" ");
-		this.setiResultCount(Integer.parseInt(arrResultCount[5]));
+		if(this.getTotalResultCount() != null){
+			this.displayResult();
+		}else{
+			throw new NullPointerException("[ERROR]: No results retrieved");
+		}
 	}
 	
 	
 	/**
 	 * This method is used to display the result of the query
 	 */
-	public void displayResult()	throws NullPointerException{		
-		Integer iCount = this.getiResultCount();		
+	protected void displayResult()	throws NullPointerException{		
+		Integer iCount = this.getTotalResultCount();		
 		//base return
 		if(iCount == null){	throw new NullPointerException("[ERROR]: No results retrieved"); }
 		// print the result

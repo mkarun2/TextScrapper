@@ -3,9 +3,14 @@ package com.src.Utilities;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
+
+import org.apache.commons.httpclient.URI;
+import org.apache.commons.httpclient.URIException;
 
 public class URLUtilities {
 
@@ -14,10 +19,12 @@ public class URLUtilities {
 	 * content) of the strURL, a web page URL
 	 * @param strURL
 	 * @return
-	 * @throws MalformedURLException 
+	 * @throws IOException 
 	 */
-	public String GetHTMLContentFromURL(String strURL) 
-			throws NullPointerException,MalformedURLException,IOException {
+	public String GetHTMLContentFromURL(String strURL) throws IOException {
+		
+		if(strURL == null){	return null; }
+		
 		URL url = null;
 		URLConnection urlConnection = null;
 		BufferedReader buffReader = null;
@@ -49,8 +56,8 @@ public class URLUtilities {
 	}
 
 	/**
-	 * This method is used to pre-process the URL for the following 1) replace
-	 * ' ' (space) with '%20' 2) Trim extra spaces in the keywords as the user
+	 * This method is used to pre-process the URL for the following 
+	 * Trim extra spaces in the keywords as the user
 	 * may leave extra spaces at the end or at the beginning of the search
 	 * keywords
 	 * @param strKeyword - keyword to pre process
@@ -62,9 +69,7 @@ public class URLUtilities {
 			return null;
 		}
 		// remove the spaces at the end and beginning and replace space
-		// in between category keywords with "%20"
-		strKeyword = strKeyword.trim().replaceAll(" ", "%20");
-
+		strKeyword = strKeyword.trim();			//.replaceAll(" ", "%20");
 		return strKeyword;
 	}
 
@@ -74,21 +79,32 @@ public class URLUtilities {
 	 * @param strKeyword
 	 * @param pgNo - is 1 for query type 1, userdefined for query type 2
 	 * @return
+	 * @throws UnsupportedEncodingException 
+	 * @throws MalformedURLException 
+	 * @throws URIException 
 	 */
-	public String buildURL(String strKeyword, Integer pgNo) {
+	public String buildURL(String strKeyword, Integer pgNo) 
+			throws UnsupportedEncodingException, MalformedURLException, URIException {
 		if (strKeyword == null || pgNo == null) {
 			return null;
 		}
-
+		
+		//encode URL to ensure run without exception if special characters are added
+		//String encodedSearchKeyword = URLEncoder.encode(strKeyword, "UTF-8");
+		strKeyword = strKeyword.trim();	
+		
 		// build the URL using a single StringBuilder object
 		StringBuilder URLBuilder = new StringBuilder();
 		URLBuilder.append("http://www.shopping.com/");
 		URLBuilder.append(strKeyword + "/" + strKeyword + "/");
-		URLBuilder.append("/products~PG-" + pgNo + "?CLT=SCH&KW=");
+		URLBuilder.append("products~PG-" + pgNo + "?CLT=SCH&KW=");
 		URLBuilder.append(strKeyword);
 
+		URL url = new URL(URLBuilder.toString());
+		URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), url.getQuery(), url.getRef());
+		
 		// Single object of URL string
-		String strURL = URLBuilder.toString();
+		String strURL = uri.toString();
 		return strURL;
 	}
 }

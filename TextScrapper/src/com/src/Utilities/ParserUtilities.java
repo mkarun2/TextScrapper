@@ -13,10 +13,10 @@ public class ParserUtilities {
 	 * after parsing its web content 
 	 * @param strURL
 	 * @return Document
+	 * @throws NullPointerException 
 	 * @throws IOException 
-	 * @throws MalformedURLException 
 	 */
-	public  Document createDOMDocument(String strURL) throws MalformedURLException, IOException{
+	public  Document createDOMDocument(String strURL) throws NullPointerException, IOException{
 		Document doc = null;
 		if(strURL != null){
 			//get the URL Contents as a String

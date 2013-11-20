@@ -21,17 +21,15 @@ public class TextScraperMain {
 			// if 1 argument provided, execute query 1
 			if(args.length == 1){
 				tsa = new TextScraperQuery1();
-				tsa.executeQuery(args[0], 1);
 				System.out.println("\n[INFO]: Results after executing Query 1 \n");
-				tsa.displayResult();
+				tsa.executeQuery(args[0], 1);
 				System.out.println();
 			}
 			// if 2 arguments provided, execute query 2
 			else if(args.length == 2){			
 				tsa = new TextScraperQuery2();
-				tsa.executeQuery(args[0], Integer.parseInt(args[1]));
 				System.out.println("\n[INFO]: Results after executing Query 2 \n");
-				tsa.displayResult();
+				tsa.executeQuery(args[0], Integer.parseInt(args[1]));				
 				System.out.println();
 			}else{
 				throw new Exception("[ERROR]: No query executed");
@@ -42,7 +40,7 @@ public class TextScraperMain {
 		} catch (MalformedURLException e) {
 			System.out.println(e.getMessage());
 		} catch (IOException e) {
-			System.out.println(e.getMessage());
+			System.out.println("[INFO]: Invalid search keyword.");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

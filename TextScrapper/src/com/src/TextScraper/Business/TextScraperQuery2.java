@@ -8,6 +8,7 @@ import java.util.List;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.src.Exceptions.IllegalPageNumberException;
 import com.src.TextScraper.Bean.ProductDetails;
 
 /**
@@ -45,10 +46,17 @@ public class TextScraperQuery2 extends TextScraperAbstract{
 		}
 		
 		// call the super class common method for both queries to process the search keyword
-		super.preProcessSearchKeywords(strSearchKeyword,pageNo);
+		try {
+			super.preProcess(strSearchKeyword,pageNo);
+		} catch (IllegalPageNumberException e) {
+			System.out.println(e.getMessage());
+		}
 		
 		//Create the List of Products
 		this.retrieveContentUtility();
+		
+		//display the products
+		this.displayResult();
 	}
 	
 	/**
@@ -59,18 +67,8 @@ public class TextScraperQuery2 extends TextScraperAbstract{
 	private void retrieveContentUtility() 
 			throws MalformedURLException, IOException{
 		
-		if(doc == null){ throw new NullPointerException("[ERROR]: DOM creation failed."); }
-		
-		//Total number of results retrieved
-		Elements resultsNo = doc.getElementsByClass("numTotalResults");
-		if(resultsNo == null){ throw new NullPointerException("[ERROR]: No results fetched."); }
-		
-		// Set the total results fetched count by parsing "Results 41 - 80 of 1498"
 		int idCounter = 1;	//counter for html dynamic ID element for product details retrieval
-		String[] arrResultCount = resultsNo.text().toString().split(" ");
-		int totalPageResultsCount = Integer.parseInt(arrResultCount[3]);	// Results count shown so far
-		this.setiResultCount(totalPageResultsCount);
-		
+			
 		//loop till the fetched number of results to create a result object
 		if(this.getiResultCount() != 0){
 			for(;idCounter <= 40; idCounter++){
@@ -121,7 +119,7 @@ public class TextScraperQuery2 extends TextScraperAbstract{
 	/**
 	 * This method is used to display the result of the query
 	 */
-	public void displayResult(){
+	protected void displayResult(){
 		if(productList != null && productList.size() != 0){
 			System.out.println();
 			int i = 1;
