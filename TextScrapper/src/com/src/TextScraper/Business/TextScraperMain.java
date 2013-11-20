@@ -5,9 +5,13 @@ import java.net.MalformedURLException;
 
 public class TextScraperMain {
 
-	public static void main(String[] args) {
-		
-		TextScraperAbstract tsa = null;
+	private TextScraperAbstract tsa;
+	
+	/**
+	 * Private method to perform textScraping
+	 * @param args
+	 */
+	private void URLTextScraper(String[] args){
 		try{
 			// no arguments provided
 			if(args == null){throw new IllegalArgumentException("[ERROR]: Please provide the Search keyword and/or result page number");	}
@@ -44,5 +48,14 @@ public class TextScraperMain {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+	}
+	
+	/**
+	 * Client Methods
+	 * @param args
+	 */
+	public static void main(String[] args) {		
+		TextScraperMain tsm = new TextScraperMain();
+		tsm.URLTextScraper(args);
 	}
 }

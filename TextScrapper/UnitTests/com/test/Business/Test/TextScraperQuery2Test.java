@@ -29,7 +29,7 @@ public class TextScraperQuery2Test {
 	 * @throws MalformedURLException 
 	 * @throws NullPointerException 
 	 */
-	@Ignore("Test is ignored as a demonstration")
+	
 	@Test
 	public void executeQueryFunctionalityTest() 
 			throws NullPointerException, MalformedURLException, IOException {
@@ -80,10 +80,10 @@ public class TextScraperQuery2Test {
 	 * @throws MalformedURLException 
 	 * @throws NullPointerException 
 	 */
-	@Test(expected=NullPointerException.class)
+	@Test(expected=IOException.class)
 	public void executeQueryInvalidSearchKeywordExceptionTest() 
 			throws NullPointerException, MalformedURLException, IOException {
-		tq2.executeQuery("Asdasdasds$%#$%", 41);
+		tq2.executeQuery("Asdasdasds$%#$%",41);
 	}
 
 }

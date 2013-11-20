@@ -20,8 +20,8 @@ public class Main {
 //		String encodedSearchKeyword = URLEncoder.encode("assdsdsdad#$%!@", "UTF-8");
 //		System.out.println(uri.toString());
 		
-		String s = "1,000";
-		s = s.replace(",","");
+		String s = "+ $5.49 shipping";
+		s = s.replace("+","");
 		System.out.println(s);
 		
 	}

@@ -38,7 +38,7 @@ public class UtilityTest {
 	/*
 	 * Test if the URL contents are retrieved
 	 */
-	@Ignore("Test is ignored as a demonstration")
+	
 	@Test
 	public void GetHTMLContentFromURLTest() 
 			throws MalformedURLException, IOException {

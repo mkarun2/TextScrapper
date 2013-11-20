@@ -83,7 +83,7 @@ public class TextScraperQuery2 extends TextScraperAbstract{
 		//loop till the fetched number of results to create a result object
 		if(this.getiResultCount() != 0){
 			for(;idCounter <= 40; idCounter++){
-
+				
 				//idCounter to dynamic ID tag of HTML content for Product Title	
 				Element content = doc.getElementById("quickLookItem-"+idCounter);
 				if(content == null){ throw new NullPointerException("[ERROR]: Element for Product is retrieved empty."); }
@@ -104,12 +104,14 @@ public class TextScraperQuery2 extends TextScraperAbstract{
 					tempShip = e.text();
 					break;
 				}
+				
+				
 				// Shipping Price Tax
 				Elements shippingPriceTax = content.getElementsByClass("calc");		
 				if(shippingPriceTax != null){  
 					for(Element e : shippingPriceTax){
-						tempShip = e.text();
-						tempShip = tempShip.replaceAll("+","");
+						tempShip = e.text().trim();
+						tempShip = tempShip.replaceAll("\\+"," ").trim();		// using \\ because + has reg exp meaning
 						break;
 					}
 				}				
