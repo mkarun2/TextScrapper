@@ -96,9 +96,23 @@ public class TextScraperQuery2 extends TextScraperAbstract{
 				Elements merchant = content.getElementsByClass("newMerchantName");
 				if(merchant == null){ throw new NullPointerException("[ERROR]: Element for vendor is retrieved empty."); }
 				
-				//Shipping Details
+				//Shipping Details Free and Rated
+				String tempShip = null;
+				//Free shipping
 				Elements shipping = content.getElementsByClass("freeShip");		
-				if(shipping == null){ throw new NullPointerException("[ERROR]: Element for Shipping is retrieved empty."); }
+				for(Element e : shipping){
+					tempShip = e.text();
+					break;
+				}
+				// Shipping Price Tax
+				Elements shippingPriceTax = content.getElementsByClass("calc");		
+				if(shippingPriceTax != null){  
+					for(Element e : shippingPriceTax){
+						tempShip = e.text();
+						tempShip = tempShip.replaceAll("+","");
+						break;
+					}
+				}				
 				
 				//Stores Number
 				Element stores = content. getElementById("numStoresQA"+idCounter);
@@ -108,12 +122,7 @@ public class TextScraperQuery2 extends TextScraperAbstract{
 				//Product Price
 				Elements price = content.getElementsByClass("productPrice");
 				if(price == null){ throw new NullPointerException("[ERROR]: Element for price is retrieved empty."); }
-				String tempShip = null;
-				for(Element e : shipping){
-					tempShip = e.text();
-					break;
-				}
-				
+							
 				//Create a Product Object
 				ProductDetails objProductDetails = new 
 						ProductDetails(
