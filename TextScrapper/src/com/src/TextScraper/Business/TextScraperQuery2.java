@@ -24,6 +24,16 @@ public class TextScraperQuery2 extends TextScraperAbstract{
 	// List of products from as a result of the query2
 	private List<ProductDetails> productList;
 	
+	
+	
+	public List<ProductDetails> getProductList() {
+		return productList;
+	}
+
+	public void setProductList(List<ProductDetails> productList) {
+		this.productList = productList;
+	}
+
 	public TextScraperQuery2(){
 		super();
 		productList = new ArrayList<ProductDetails>();
@@ -46,13 +56,14 @@ public class TextScraperQuery2 extends TextScraperAbstract{
 		}
 		
 		// call the super class common method for both queries to process the search keyword
+		// pre process - URLEncoding, Build URL for fetching, Retrieve the Number of results for the query
 		try {
 			super.preProcess(strSearchKeyword,pageNo);
 		} catch (IllegalPageNumberException e) {
 			System.out.println(e.getMessage());
 		}
 		
-		//Create the List of Products
+		//Retrieve the List of Products
 		this.retrieveContentUtility();
 		
 		//display the products
@@ -119,7 +130,7 @@ public class TextScraperQuery2 extends TextScraperAbstract{
 	/**
 	 * This method is used to display the result of the query
 	 */
-	protected void displayResult(){
+	private void displayResult(){
 		if(productList != null && productList.size() != 0){
 			System.out.println();
 			int i = 1;

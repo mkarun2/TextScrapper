@@ -24,21 +24,20 @@ public abstract class TextScraperAbstract {
 	// Abstract Methods
 	protected abstract void executeQuery(String strKeyword, Integer pageNum) 
 			throws NullPointerException,MalformedURLException, IOException;
-	protected abstract void displayResult();
 	
 	// Super Class Common Methods
-	protected Integer getiResultCount() {
+	public Integer getiResultCount() {
 		return iResultCount;
 	}
 
-	protected void setiResultCount(Integer iResultCount) {
+	public void setiResultCount(Integer iResultCount) {
 		this.iResultCount = iResultCount;
 	}
 	
-	protected Integer getTotalResultCount() {
+	public Integer getTotalResultCount() {
 		return totalResultCount;
 	}
-	protected void setTotalResultCount(Integer totalResultCount) {
+	public void setTotalResultCount(Integer totalResultCount) {
 		this.totalResultCount = totalResultCount;
 	}
 	
@@ -60,10 +59,6 @@ public abstract class TextScraperAbstract {
 		this.strSearchKeyword = searchKeyword;
 		this.iPageNum = iPageNum;
 		
-//		// remove beginning and trailing spaces and replace space in between keywords with %20
-//		String strProcessedCategory = objURLUtilities.preProcessURLKeywords(strSearchKeyword);
-//		if(strProcessedCategory == null){ throw new NullPointerException("[ERROR]: URL preprocessing failed."); }
-		
 		// Build the URL
 		strURL = objURLUtilities.buildURL(searchKeyword,this.iPageNum);		
 		if(strURL == null){ throw new NullPointerException("[ERROR]: URL building failed."); }
@@ -82,12 +77,12 @@ public abstract class TextScraperAbstract {
 		// get the total results fetched count by parsing string "Results 41 - 80 of 1498"		
 		String[] arrResultCount = resultsNo.text().toString().split(" ");
 		
-		// Results count shown so far
-		int totalPageResultsCount = Integer.parseInt(arrResultCount[3]);	
+		// Results count viewed so far in the output eg: 80 results in 2 pages, so count = 80
+		int totalPageResultsCount = Integer.parseInt(objURLUtilities.removeComma(arrResultCount[3]));	
 		this.setiResultCount(totalPageResultsCount);
 		
 		 // total result set count
-		this.setTotalResultCount(Integer.parseInt(arrResultCount[5]));
+		this.setTotalResultCount(Integer.parseInt(objURLUtilities.removeComma(arrResultCount[5])));
 		
 		// calculate the total number of pages 
 		Double totalPages = Math.ceil(this.getTotalResultCount()/40);
@@ -96,12 +91,10 @@ public abstract class TextScraperAbstract {
 		if(this.iPageNum < 0 || this.iPageNum > totalPages){
 			throw new IllegalPageNumberException("Page number can only be between 1 and " + totalPages.toString());
 		}
-
 	}
 
 	// Super Class Constructor
-	// initialize everything to be safer, even though instance variables
-	// are initialized by default
+	// initialize everything to be safer, even though instance variables are initialized by default
 	protected TextScraperAbstract(){
 		objURLUtilities = new URLUtilities();
 		objParserUtilities = new ParserUtilities();

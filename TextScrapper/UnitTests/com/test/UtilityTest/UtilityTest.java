@@ -1,6 +1,8 @@
 package com.test.UtilityTest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -52,7 +54,6 @@ public class UtilityTest {
 	 * Test if the Document Object Model is
 	 * created without exception for the 
 	 */
-	@Ignore("Test is ignored as a demonstration")
 	@Test
 	public void createDOMDocumentTest() 
 			throws MalformedURLException, IOException{
@@ -70,7 +71,6 @@ public class UtilityTest {
 	 * Test for UnknownHost Exception which
 	 * is captured by the IOException
 	 */
-	@Ignore("Test is ignored as a demonstration")
 	@Test(expected = IOException.class)
 	public void createDOMDocumentExceptionTest() throws NullPointerException, IOException {
 		Document doc = null;
@@ -83,7 +83,6 @@ public class UtilityTest {
 	 * should not cause exception but
 	 * return a DOM as null
 	 */
-	@Ignore("Test is ignored as a demonstration")
 	@Test
 	public void createDOMDocumentNULLTest() throws NullPointerException, IOException {
 		Document doc = null;
@@ -157,6 +156,11 @@ public class UtilityTest {
 		else{ fail("NULL test for getting HTML content from URL failed"); }
 	}
 
+	/**
+	 * test to check if content is retrieved if
+	 * a valid URL is provided
+	 * @throws IOException
+	 */
 	@Test
 	public void GetHTMLContentFromURLNormalTest() throws IOException{
 		String output = urlTest.GetHTMLContentFromURL("http://www.shopping.com");

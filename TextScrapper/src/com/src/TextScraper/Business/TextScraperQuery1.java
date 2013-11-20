@@ -22,19 +22,22 @@ public class TextScraperQuery1 extends TextScraperAbstract{
 	public void executeQuery(String strSearchKeyword,Integer pageNo) 
 			throws NullPointerException, MalformedURLException, IOException{
 		//no string object
-		if(strSearchKeyword == null){ throw new NullPointerException("[ERROR]: Empty search keyword."); }
-		if(pageNo == null){ throw new NullPointerException("[ERROR]: Empty page number."); }
+		if(strSearchKeyword == null || pageNo == null){ 
+			throw new NullPointerException("[ERROR]: Empty search keyword or page number"); }
 		
 		// Base exit
 		if (strSearchKeyword.length() == 0) {
 			throw new NullPointerException("[ERROR]: Search Keyword or page number is empty");
 		}
 		
+		// pre process - URLEncoding, Build URL for fetching, Retrieve the Number of results for the query
 		try {
 			super.preProcess(strSearchKeyword,1);
 		} catch (IllegalPageNumberException e) {
 			System.out.println(e.getMessage());
 		}
+		
+		//Query1 implementation - Retrieve the total number of results for the query search word
 		this.query1Implementation();		
 	}
 	
@@ -44,26 +47,12 @@ public class TextScraperQuery1 extends TextScraperAbstract{
 	 * This method is used to query for the searchKeyword
 	 * and return the number of results retrieved
 	 */
-	private void query1Implementation(){
-		
-		if(doc == null){ throw new NullPointerException("[ERROR]: DOM creation failed."); }
-		
-		if(this.getTotalResultCount() != null){
-			this.displayResult();
-		}else{
-			throw new NullPointerException("[ERROR]: No results retrieved");
-		}
-	}
-	
-	
-	/**
-	 * This method is used to display the result of the query
-	 */
-	protected void displayResult()	throws NullPointerException{		
-		Integer iCount = this.getTotalResultCount();		
+	private void query1Implementation(){		
+		if(doc == null){ throw new NullPointerException("[ERROR]: DOM creation failed."); }		
+		Integer iCount = this.getTotalResultCount();				
 		//base return
-		if(iCount == null){	throw new NullPointerException("[ERROR]: No results retrieved"); }
+		if(iCount == null){	throw new NullPointerException("[ERROR]: No results retrieved"); }		
 		// print the result
-		else{ System.out.println("[INFO]: Total Number of results retrieved: " + iCount.toString()); }		
+		else{ System.out.println("[INFO]: Total Number of results retrieved: " + iCount.toString()); }	
 	}
 }

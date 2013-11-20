@@ -7,7 +7,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
+
 
 import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.URIException;
@@ -71,6 +71,22 @@ public class URLUtilities {
 		// remove the spaces at the end and beginning and replace space
 		strKeyword = strKeyword.trim();			//.replaceAll(" ", "%20");
 		return strKeyword;
+	}
+	
+	/**
+	 * Return a string after remove ',' from input string
+	 * eg: 1,000 -> 1000
+	 * @param strInput
+	 * @return
+	 */
+	public String removeComma(String strInput){
+		// base return
+		if (strInput == null) {
+			return null;
+		}
+		// remove the spaces at the end and beginning and replace space
+		strInput = strInput.trim().replaceAll(",","");			
+		return strInput;
 	}
 
 	/**
