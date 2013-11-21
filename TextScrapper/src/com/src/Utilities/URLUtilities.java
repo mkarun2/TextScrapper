@@ -85,7 +85,7 @@ public class URLUtilities {
 			return null;
 		}
 		// remove the spaces at the end and beginning and replace space
-		strInput = strInput.trim().replaceAll(",","");			
+		strInput = strInput.trim().replaceAll(",","").replaceAll("\\+","");		
 		return strInput;
 	}
 
